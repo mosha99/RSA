@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "RSA",
   "resources": {
-    "hash": "sha256-cRT62jgzXONmUDgWlJjA+2OFB11R2kZE2FzQbClJ+Js=",
+    "hash": "sha256-zPwu3aUSYPW+EpyJohndlKEj7O6bw7Jj1GXIdmjqNnU=",
     "jsModuleNative": {
       "dotnet.native.8.0.6.suuomc2hr0.js": "sha256-YU6M9+jtDVnB8/wtrgIndOstzNh778Ls8g9XnbjorSk="
     },
@@ -34,8 +34,8 @@
       "Microsoft.JSInterop.wasm": "sha256-0sJwLsjig/iaE3C4fwZ8RIt8NJSD9qIGlJqZpdojhwQ=",
       "Microsoft.JSInterop.WebAssembly.wasm": "sha256-Kr13V+6zGL8rPvFmuBAsaEJfoMlR4Q8keJHKaVGVbGA=",
       "Radzen.Blazor.wasm": "sha256-o+wyT8LhEoMuCItj4K2Ushs1DDnIUG1lttpLIrug/yc=",
-      "RSA.Service.wasm": "sha256-DhH6kFJch96dpwptdMY03qurDJ6bpxRqeoe4J2oL/60=",
-      "RSA.wasm": "sha256-zXVubnTcSIJxDN6P3g1Gi6LAMBf4yINJAD7BdLYbids=",
+      "RSA.Service.wasm": "sha256-CXNBfUXNCUfVVnW8G0FYzLQlRAnGobNUMfIVRBUFugQ=",
+      "RSA.wasm": "sha256-4QV9zM97aANjZBmKocMz5APyqW2ZOh2xT+vtH7lLzTg=",
       "System.Collections.Concurrent.wasm": "sha256-2VtFrJKQf3FIX2zgrghLVl5+tRADviCdDmfoOu87PZ0=",
       "System.Collections.Immutable.wasm": "sha256-AYJV+kK3b6TpaXH9BTMJ7VZHmtdC62NpTy7QgNMjlWE=",
       "System.Collections.NonGeneric.wasm": "sha256-6/sS77tzIYJw75g9Kx2MKlJTyScSF3JTJ60ahNep+bs=",
