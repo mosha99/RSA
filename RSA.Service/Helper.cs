@@ -14,10 +14,9 @@ public static class Helper
 
         foreach (var b in Encoding.ASCII.GetBytes(input))
         {
-            builder.Append(b);
+            builder.Append(b.ToString().PadLeft(3, '0'));
         }
 
         return BigInteger.Parse(builder.ToString());
-
     }
 }

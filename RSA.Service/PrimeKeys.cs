@@ -7,8 +7,6 @@ public class PrimeKeys(string firstKey, string secondKey)
     public BigInteger NumericFirstKey => firstKey!.ToBigInteger();
     public BigInteger NumericSecondKey => secondKey!.ToBigInteger();
 
-
-
     public bool FirstKeyValidate() => IsPrime(NumericFirstKey);
     public bool SecondKeyValidate() => IsPrime(NumericSecondKey);
 

@@ -1,4 +1,5 @@
 ﻿@using RSA.Service
+@using System.Text
 <RadzenCard Style="margin: var(--rz-form-field-margin);">
     <RadzenFieldset AllowCollapse="true" Text="Decrypt Message Part">
         <RadzenStack class="w-100">
@@ -22,7 +23,7 @@
 
             <RadzenRow class="w-100" AlignItems="AlignItems.Center">
                 <RadzenButton Disabled="EnableButton" Click="Decode" Style="margin: var(--rz-form-field-margin);">Message</RadzenButton>
-
+                <RadzenButton Disabled="EnableButton" Click="ToChar" Style="margin: var(--rz-form-field-margin);">To Char</RadzenButton>
                 <RadzenFormField class="w-100" Text="Encryption" Style="width: 100%;">
                     <RadzenTextArea @bind-Value="Result" aria-label="TextArea" />
                 </RadzenFormField>
@@ -38,6 +39,7 @@
     [Parameter] public EventCallback<string> OnResult { set; get; }
 
     public string Result { set; get; } = "";
+    bool _convertedToChar = false;
 
     bool EnableButton =>
         string.IsNullOrWhiteSpace(Message) ||
@@ -46,9 +48,28 @@
 
     private async Task Decode()
     {
+        _convertedToChar = false;
         Result = MessageDecoder.Decode(Message, PrivateKey, ShareKey).ToString();
 
         if (OnResult.HasDelegate)
             await OnResult.InvokeAsync(Result);
     }
+
+    private void ToChar()
+    {
+        if (_convertedToChar) return;
+        _convertedToChar = true;
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < Result.Length; i += 3)
+        {
+            string ti = Result.Substring(i, 3);
+
+            var ch = (char)int.Parse(ti);
+
+            sb.Append(ch);
+        }
+    }
+
 }
