@@ -1,0 +1,126 @@
+﻿@using RSA.Service
+
+<RadzenCard>
+    <RadzenFieldset AllowCollapse="true" Collapsed="true" Text="Create Key Part">
+        <RadzenStack class="w-100">
+            <RadzenRow class="w-100" AlignItems="AlignItems.Center">
+                <RadzenFormField class="w-100 firstKey" Text="First Prime Code" Style="width: 100%;">
+                    <RadzenTextArea @bind-Value="_firstKey" aria-label="TextArea" />
+                </RadzenFormField>
+            </RadzenRow>
+
+            <RadzenRow class="w-100" AlignItems="AlignItems.Center">
+
+                <RadzenFormField class="w-100 secondKey" Text="Second Prime Code" Style="width: 100%;">
+                    <RadzenTextArea  @bind-Value="_secondKey" aria-label="TextArea" />
+                </RadzenFormField>
+
+                @if (_validating)
+                {
+                    <RadzenRow class="w-100" AlignItems="AlignItems.Center">
+                        <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+                        <RadzenText>Validating Prime Code</RadzenText>
+                    </RadzenRow>
+                }
+
+                @if (_generating)
+                {
+                    <RadzenRow class="w-100" AlignItems="AlignItems.Center">
+                        <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+                        <RadzenText>Generating Keys</RadzenText>
+                    </RadzenRow>
+                }
+
+                <RadzenButton ButtonStyle="ButtonStyle.Secondary" Disabled="KeyIsNotValid" Click="ValidatePrime" Style="margin: var(--rz-form-field-margin);">Validate Prime</RadzenButton>
+                <RadzenButton ButtonStyle="GenerateButtonStyle" Disabled="KeyIsNotValid" Click="GenerateKeys" Style="margin: var(--rz-form-field-margin);">@("Generate" + (_allValid ? "" : " WithOut Validation"))</RadzenButton>
+
+            </RadzenRow>
+        </RadzenStack>
+    </RadzenFieldset>
+</RadzenCard>
+
+@if (!_secondKeyValid)
+{
+    <style>
+        .secondKey .rz-form-field-content {
+            border-color : red !important;
+        }
+    </style>
+}
+@if (!_firstKeyValid)
+{
+    <style>
+        .firstKey .rz-form-field-content {
+            border-color : red !important;
+        }
+    </style>
+}
+
+@code {
+    string _firstKey = "";
+    string _secondKey = "";
+    bool _validating = false;
+    bool _generating = false;
+    bool _firstKeyValid = false;
+    bool _secondKeyValid = false;
+    bool _allValid = false;
+
+    GeneratedKeys? _generatedKeys;
+
+    [Parameter] public EventCallback<GeneratedKeys> GeneratedKeyValueChanged { set; get; }
+
+    [Parameter] public GeneratedKeys? GeneratedKeyValue { set; get; }
+
+    [Parameter] public EventCallback<bool> OnValidate { set; get; }
+
+
+    bool KeyIsNotValid =>
+        string.IsNullOrWhiteSpace(_firstKey) ||
+        string.IsNullOrWhiteSpace(_secondKey);
+
+    bool KeyIsPrime =>_secondKeyValid && _firstKeyValid;
+
+
+
+    ButtonStyle GenerateButtonStyle =>
+        _allValid ? ButtonStyle.Success : ButtonStyle.Danger;
+
+
+    private async Task ValidatePrime()
+    {
+        PrimeKeys kes = new(_firstKey, _secondKey);
+
+        _validating = true;
+
+        await Task.Delay(1);
+
+        _firstKeyValid = kes.FirstKeyValidate();
+
+        _secondKeyValid = kes.SecondKeyValidate();
+
+        _allValid = _firstKeyValid && _secondKeyValid;
+
+        _validating = false;
+
+        if (OnValidate.HasDelegate)
+            await OnValidate.InvokeAsync();
+    }
+
+    private async Task GenerateKeys()
+    {
+        PrimeKeys kes = new(_firstKey, _secondKey);
+
+        _generating = true;
+
+        await Task.Delay(1);
+
+        RsaKeyGenerator keyGenerator = new(kes);
+
+        _generatedKeys = keyGenerator.GenerateKeys();
+
+        _generating = false;
+
+        if (GeneratedKeyValueChanged.HasDelegate)
+            await GeneratedKeyValueChanged.InvokeAsync(_generatedKeys);
+    }
+}

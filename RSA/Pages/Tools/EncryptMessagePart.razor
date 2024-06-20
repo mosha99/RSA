@@ -1,0 +1,54 @@
+﻿@using RSA.Service
+<RadzenCard Style="margin: var(--rz-form-field-margin);">
+    <RadzenFieldset AllowCollapse="true" Collapsed="true" Text="Encrypt Message Part">
+        <RadzenStack class="w-100">
+
+            <RadzenRow class="w-100" AlignItems="AlignItems.Center">
+                <RadzenFormField class="w-100" Text="Public Key" Style="width: 100%;">
+                    <RadzenTextArea @bind-Value="PublicKey" aria-label="TextArea" />
+                </RadzenFormField>
+            </RadzenRow>
+
+            <RadzenRow class="w-100" AlignItems="AlignItems.Center">
+                <RadzenFormField class="w-100" Text="Share Key" Style="width: 100%;">
+                    <RadzenTextArea @bind-Value="ShareKey" aria-label="TextArea" />
+                </RadzenFormField>
+            </RadzenRow>
+
+            <RadzenRow class="w-100" AlignItems="AlignItems.Center">
+                <RadzenFormField class="w-100" Text="Message" Style="width: 100%;">
+                    <RadzenTextArea @bind-Value="Message" aria-label="TextArea" />
+                </RadzenFormField>
+            </RadzenRow>
+
+            <RadzenRow class="w-100" AlignItems="AlignItems.Center">
+                <RadzenButton Disabled="EnableButton" Click="Encode" Style="margin: var(--rz-form-field-margin);">Encrypt</RadzenButton>
+                <RadzenFormField class="w-100" Text="Encryption" Style="width: 100%;">
+                    <RadzenTextArea @bind-Value="Result" aria-label="TextArea" />
+                </RadzenFormField>
+            </RadzenRow>
+        </RadzenStack>
+    </RadzenFieldset>
+</RadzenCard>
+
+@code {
+    [Parameter] public required string PublicKey { set; get; }
+    [Parameter] public required string ShareKey { set; get; }
+    [Parameter] public EventCallback<string> OnResult { set; get; }
+    public string Message { set; get; } = "";
+
+    public string Result { set; get; } = "";
+
+    bool EnableButton =>
+        string.IsNullOrWhiteSpace(Message) ||
+        string.IsNullOrWhiteSpace(PublicKey) ||
+        string.IsNullOrWhiteSpace(ShareKey);
+
+    private async Task Encode()
+    {
+        Result = MessageDecoder.Decode(Message, PublicKey, ShareKey).ToString();
+
+        if (OnResult.HasDelegate)
+            await OnResult.InvokeAsync(Result);
+    }
+}
