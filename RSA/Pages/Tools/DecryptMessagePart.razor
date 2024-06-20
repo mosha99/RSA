@@ -57,18 +57,37 @@
 
     private void ToChar()
     {
+
         if (_convertedToChar) return;
         _convertedToChar = true;
-
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < Result.Length; i += 3)
+        try
         {
-            string ti = Result.Substring(i, 3);
+            StringBuilder sb = new StringBuilder();
 
-            var ch = (char)int.Parse(ti);
+            for (int i = 0; i < Result.Length; i += 3)
+            {
+                string ti = Result.Substring(i, 3);
 
-            sb.Append(ch);
+                var ch = (char)int.Parse(ti);
+
+                sb.Append(ch);
+            }
+
+            Result = sb.ToString();
+        }
+        catch (Exception e)
+        {
+            StringBuilder sb = new StringBuilder();
+            Result = "0" + Result;
+            for (int i = 0; i < Result.Length; i += 3)
+            {
+                string ti = Result.Substring(i, 3);
+
+                var ch = (char)int.Parse(ti);
+
+                sb.Append(ch);
+            }
+            Result = sb.ToString();
         }
     }
 
