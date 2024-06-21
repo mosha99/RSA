@@ -8,7 +8,7 @@ just for fun
 
 ![image](https://github.com/mosha99/RSA/assets/75360268/d6ae6160-367f-4fde-a37d-cd76bef28890)
 
-Warning: Due to the fact that all encryption processes are done in the front and in the browser, if you choose a large number, you have to wait for more women.
+Warning: Due to the fact that all encryption processes are done in the front and in the browser, if you choose a large number, you have to wait for more time.
 Suggested number of digits: 2 to 4
 
 Then, if you are sure that the numbers are prime, just click the GENERATE WITHOUT VALIDATION option, and if you want to make sure that your numbers are prime, do the validation first.
